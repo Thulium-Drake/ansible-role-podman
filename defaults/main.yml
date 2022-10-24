@@ -1,0 +1,23 @@
+---
+# Storage configuration for Podman
+# See https://github.com/containers/podman/blob/main/vendor/github.com/containers/storage/storage.conf
+# or PodMan documentation for a complete overview of all options
+podman_storage: []
+# - option: 'driver'
+#   value: 'overlay'
+#   section: 'storage'
+
+# The following setting allows to remap public registries to private mirrors
+podman_registries: []
+#   - prefix: 'docker.io'               # Registry name
+#     location: 'registry.example.com'  # Private mirror
+#     validate_certs: true              # Validate SSL certificates, defaults to true
+#     blocked: false                    # If true, this repository is disabled in CRI-O, defaults to false
+
+# The following registries can be searched without full image names
+# e.g. docker.io/namespace/my-image:v2
+podman_unqualified_search_registries:
+  - 'registry.fedoraproject.org'
+  - 'registry.access.redhat.com'
+  - 'registry.centos.org'
+  - 'docker.io'

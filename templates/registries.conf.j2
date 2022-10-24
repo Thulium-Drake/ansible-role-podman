@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+
+unqualified-search-registries = {{ podman_unqualified_search_registries | to_json }}
+
+{% for registry in podman_registries %}
+[[registry]]
+prefix = "{{ registry['prefix'] }}"
+location = "{{ registry['location'] }}"
+insecure = {{ (not registry['validate_certs'] | default('true')) | lower }}
+blocked = {{ (registry['blocked'] | default('false')) | lower }}
+
+{% endfor %}
