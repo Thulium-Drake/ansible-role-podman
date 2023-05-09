@@ -13,7 +13,7 @@
     owner: 'root'
     group: 'root'
 
-- name: 'Ensure storage confuguration'
+- name: 'Ensure storage configuration'
   community.general.ini_file:
     path: '/etc/containers/storage.conf'
     section: "{{ storage['section'] }}"
@@ -23,15 +23,20 @@
     owner: 'root'
     group: 'root'
   loop: "{{ podman_storage }}"
+  loop_control:
+    loop_var: 'storage'
   when: podman_storage | length > 0
 
-- name: 'Ensure services'
-  ansible.builtin.systemd:
-    name: "{{ service }}"
-    state: 'started'
-    enabled: true
-    daemon_reload: true
-  loop:
-    - 'podman'
+- name: 'Ensure containers configuration'
+  community.general.ini_file:
+    path: '/etc/containers/containers.conf'
+    section: "{{ containers['section'] }}"
+    option: "{{ containers['option'] }}"
+    value: "{{ containers['value'] }}"
+    mode: 0644
+    owner: 'root'
+    group: 'root'
+  loop: "{{ podman_containers }}"
   loop_control:
-    loop_var: 'service'
+    loop_var: 'containers'
+  when: podman_containers | length > 0

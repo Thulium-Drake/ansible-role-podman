@@ -3,9 +3,17 @@
 # See https://github.com/containers/podman/blob/main/vendor/github.com/containers/storage/storage.conf
 # or PodMan documentation for a complete overview of all options
 podman_storage: []
-# - option: 'driver'
+# - section: 'storage'
+#   option: 'driver'
 #   value: 'overlay'
-#   section: 'storage'
+
+# Containers configuration for Podman
+# See https://github.com/containers/common/blob/main/docs/containers.conf.5.md
+# or PodMan documentation for a complete overview of all options
+podman_containers: []
+# - section: 'engine'
+#   option: 'service_timeout'
+#   value: '0'  # This enables the Podman API service
 
 # The following setting allows to remap public registries to private mirrors
 podman_registries: []
