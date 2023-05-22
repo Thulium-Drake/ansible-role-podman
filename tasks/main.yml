@@ -9,9 +9,9 @@
   ansible.builtin.template:
     src: 'registries.conf.j2'
     dest: '/etc/containers/registries.conf'
-    mode: 0644
     owner: 'root'
     group: 'root'
+    mode: '0644'
 
 - name: 'Ensure storage configuration'
   community.general.ini_file:
@@ -19,9 +19,9 @@
     section: "{{ storage['section'] }}"
     option: "{{ storage['option'] }}"
     value: "{{ storage['value'] }}"
-    mode: 0644
     owner: 'root'
     group: 'root'
+    mode: '0644'
   loop: "{{ podman_storage }}"
   loop_control:
     loop_var: 'storage'
@@ -33,9 +33,9 @@
     section: "{{ containers['section'] }}"
     option: "{{ containers['option'] }}"
     value: "{{ containers['value'] }}"
-    mode: 0644
     owner: 'root'
     group: 'root'
+    mode: '0644'
   loop: "{{ podman_containers }}"
   loop_control:
     loop_var: 'containers'
