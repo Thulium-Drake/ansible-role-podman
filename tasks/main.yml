@@ -18,7 +18,7 @@
     path: '/etc/containers/storage.conf'
     section: "{{ storage['section'] }}"
     option: "{{ storage['option'] }}"
-    value: "{{ storage['value'] }}"
+    value: "\"{{ storage['value'] }}\""
     owner: 'root'
     group: 'root'
     mode: '0644'
@@ -32,7 +32,7 @@
     path: '/etc/containers/containers.conf'
     section: "{{ containers['section'] }}"
     option: "{{ containers['option'] }}"
-    value: "{{ containers['value'] }}"
+    value: "\"{{ storage['value'] }}\""
     owner: 'root'
     group: 'root'
     mode: '0644'
