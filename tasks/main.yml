@@ -40,3 +40,9 @@
   loop_control:
     loop_var: 'containers'
   when: podman_containers | length > 0
+
+- name: 'Ensure Podman Socket'
+  ansible.builtin.service:
+    name: 'podman.socket'
+    state: 'started'
+    enabled: true
