@@ -41,8 +41,28 @@
     loop_var: 'containers'
   when: podman_containers | length > 0
 
-- name: 'Ensure Podman Socket'
+- name: 'Ensure Podman services'
   ansible.builtin.service:
-    name: 'podman.socket'
+    name: "{{ service }}"
     state: 'started'
     enabled: true
+  loop:
+    - 'podman.socket'
+    - 'podman-auto-update.timer'
+  loop_control:
+    loop_var: 'service'
+
+- name: 'Remove user sockets for Podman'
+  ansible.builtin.file:
+    path: "{{ file }}"
+    state: 'absent'
+  loop:
+    - '/usr/lib/systemd/user/podman-auto-update.service'
+    - '/usr/lib/systemd/user/podman-auto-update.timer'
+    - '/usr/lib/systemd/user/podman-kube@.service'
+    - '/usr/lib/systemd/user/podman-restart.service'
+    - '/usr/lib/systemd/user/podman.service'
+    - '/usr/lib/systemd/user/podman.socket'
+  loop_control:
+    loop_var: 'file'
+  when: 'podman_disable_user_sockets'

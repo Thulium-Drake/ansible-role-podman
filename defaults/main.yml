@@ -29,3 +29,9 @@ podman_unqualified_search_registries:
   - 'registry.access.redhat.com'
   - 'registry.centos.org'
   - 'docker.io'
+
+# Enable to remove socket files for rootless containers with socket activation
+# This can help with removing the ability for non-root users to start containers
+# with management tools such as Cockpit.
+# NOTE: There is no tamperproof way to completely disable podman rootless containers
+podman_disable_user_sockets: false
