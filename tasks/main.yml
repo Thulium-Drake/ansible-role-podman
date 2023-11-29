@@ -13,6 +13,18 @@
     group: 'root'
     mode: '0644'
 
+- name: 'Log in on password protected registries'
+  containers.podman.podman_login:
+    username: "{{ registry['username'] }}"
+    password: "{{ registry['password'] }}"
+    registry: "{{ registry['location'] }}"
+  loop: "{{ podman_registries }}"
+  loop_control:
+    loop_var: 'registry'
+  when:
+    - registry['username'] is defined
+    - registry['password'] is defined
+
 - name: 'Ensure storage configuration'
   community.general.ini_file:
     path: '/etc/containers/storage.conf'
