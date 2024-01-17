@@ -15,10 +15,10 @@ podman_containers: []
 #   option: 'service_timeout'
 #   value: '0'  # This enables the Podman API service
 
-# The following setting allows to remap public registries to private mirrors
+# The following setting configures registries
 podman_registries: []
-#   - prefix: 'docker.io'               # Registry name
-#     location: 'registry.example.com'  # Private mirror
+#   - location: 'registry.example.com'  # Private mirror
+#     prefix: 'docker.io'               # Registry prefix, optional
 #     validate_certs: true              # Validate SSL certificates, defaults to true
 #     blocked: false                    # If true, this repository is disabled in CRI-O, defaults to false
 
