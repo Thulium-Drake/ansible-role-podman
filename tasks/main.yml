@@ -18,6 +18,7 @@
     username: "{{ registry['username'] }}"
     password: "{{ registry['password'] }}"
     registry: "{{ registry['location'] }}"
+    authfile: '~/.config/containers/auth.json'
   loop: "{{ podman_registries }}"
   loop_control:
     loop_var: 'registry'
