@@ -4,7 +4,7 @@ unqualified-search-registries = {{ podman_unqualified_search_registries | to_jso
 
 {% for registry in podman_registries %}
 [[registry]]
-prefix = "{{ registry['prefix'] | registry['location'] }}"
+prefix = "{{ registry['prefix'] | default(registry['location']) }}"
 
 {% if registry['location'] is defined %}
 location = "{{ registry['location'] }}"
