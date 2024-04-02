@@ -35,3 +35,6 @@ podman_unqualified_search_registries:
 # with management tools such as Cockpit.
 # NOTE: There is no tamperproof way to completely disable podman rootless containers
 podman_disable_user_sockets: false
+
+# Set to true to allow logging of sensitive information during debugging
+podman_debug: false

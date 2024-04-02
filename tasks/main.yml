@@ -22,6 +22,7 @@
   loop: "{{ podman_registries }}"
   loop_control:
     loop_var: 'registry'
+  no_log: "{{ not podman_debug }}"
   when:
     - registry['username'] is defined
     - registry['password'] is defined
