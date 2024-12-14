@@ -1,4 +1,10 @@
 ---
+# Configure Podman to operate rootless
+podman_rootless: false
+podman_user_account: 'podman'
+podman_user_home: '/var/lib/podman'
+podman_user_subid_range_start: 100000
+
 # Storage configuration for Podman
 # See https://github.com/containers/podman/blob/main/vendor/github.com/containers/storage/storage.conf
 # or PodMan documentation for a complete overview of all options

@@ -9,7 +9,7 @@
     podman_containers:
       - section: 'engine'
         option: 'service_timeout'
-        value: '1'
+        value: 1
     podman_storage:
       - section: 'storage'
         option: 'driver'
