@@ -1,24 +1,31 @@
 ---
 - name: 'Ensure container user when confiured for rootless'
-  ansible.builtin.user:
-    name: "{{ podman_user_account }}"
-    comment: 'Podman Container user'
-    home: "{{ podman_user_home }}"
-    shell: '/usr/sbin/nologin'
-    state: 'present'
   when: podman_rootless
+  block:
+    - name: 'Ensure user account'
+      ansible.builtin.user:
+        name: "{{ podman_user_account }}"
+        comment: 'Podman Container user'
+        home: "{{ podman_user_home }}"
+        shell: '/usr/sbin/nologin'
+        state: 'present'
 
-- name: 'Ensure subordinate user IDs'
-  ansible.builtin.lineinfile:
-    path: "/etc/sub{{ file }}"
-    line: "{{ podman_user_account }}:{{ podman_user_subid_range_start }}:65536"
-    state: 'present'
-  loop:
-    - 'uid'
-    - 'gid'
-  loop_control:
-    loop_var: 'file'
-  when: podman_rootless
+    - name: 'Ensure lingering enabled'
+      ansible.builtin.command: "loginctl enable-linger {{ podman_user_account }}"
+      args:
+        creates: "/var/lib/systemd/linger/{{ podman_user_account }}"
+
+    - name: 'Ensure subordinate user IDs'
+      ansible.builtin.lineinfile:
+        path: "/etc/sub{{ file }}"
+        line: "{{ podman_user_account }}:{{ podman_user_subid_range_start }}:65536"
+        regexp: "^{{ podman_user_account }}*"
+        state: 'present'
+      loop:
+        - 'uid'
+        - 'gid'
+      loop_control:
+        loop_var: 'file'
 
 - name: 'Ensure packages'
   ansible.builtin.package:
@@ -88,6 +95,8 @@
     state: 'started'
     enabled: true
     scope: "{{ (podman_rootless) | ternary('user', 'system', 'system') }}"
+  become: "{{ (podman_rootless) | ternary('false', omit, omit) }}"
+  become_user: "{{ (podman_rootless) | ternary(omit, podman_user_account) }}"
   loop:
     - 'podman.socket'
     - 'podman-auto-update.timer'
