@@ -50,8 +50,8 @@
   loop: "{{ podman_registries }}"
   loop_control:
     loop_var: 'registry'
-  become: "{{ not podman_rootless }}"
-  become_user: "{{ (podman_rootless) | ternary(omit, podman_user_account) }}"
+  become: "{{ (podman_rootless) | ternary(true, omit) }}"
+  become_user: "{{ (podman_rootless) | ternary(podman_user_account, omit) }}"
   no_log: "{{ not podman_debug }}"
   when:
     - registry['username'] is defined
@@ -69,8 +69,8 @@
   loop: "{{ podman_storage }}"
   loop_control:
     loop_var: 'storage'
-  become: "{{ (podman_rootless) | ternary('false', omit, omit) }}"
-  become_user: "{{ (podman_rootless) | ternary(omit, podman_user_account) }}"
+  become: "{{ (podman_rootless) | ternary(true, omit) }}"
+  become_user: "{{ (podman_rootless) | ternary(podman_user_account, omit) }}"
   when: podman_storage | length > 0
 
 - name: 'Ensure containers configuration'
@@ -85,8 +85,8 @@
   loop: "{{ podman_containers }}"
   loop_control:
     loop_var: 'containers'
-  become: "{{ (podman_rootless) | ternary('false', omit, omit) }}"
-  become_user: "{{ (podman_rootless) | ternary(omit, podman_user_account) }}"
+  become: "{{ (podman_rootless) | ternary(true, omit) }}"
+  become_user: "{{ (podman_rootless) | ternary(podman_user_account, omit) }}"
   when: podman_containers | length > 0
 
 - name: 'Ensure Podman services'
@@ -95,8 +95,8 @@
     state: 'started'
     enabled: true
     scope: "{{ (podman_rootless) | ternary('user', 'system', 'system') }}"
-  become: "{{ (podman_rootless) | ternary('false', omit, omit) }}"
-  become_user: "{{ (podman_rootless) | ternary(omit, podman_user_account) }}"
+  become: "{{ (podman_rootless) | ternary(true, omit) }}"
+  become_user: "{{ (podman_rootless) | ternary(podman_user_account, omit) }}"
   loop:
     - 'podman.socket'
     - 'podman-auto-update.timer'
