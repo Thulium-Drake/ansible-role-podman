@@ -7,7 +7,7 @@
         name: "{{ podman_user_account }}"
         comment: 'Podman Container user'
         home: "{{ podman_user_home }}"
-        shell: '/usr/sbin/nologin'
+        shell: "{{ podman_user_shell }}"
         state: 'present'
 
     - name: 'Ensure lingering enabled'

@@ -3,6 +3,7 @@
 podman_rootless: false
 podman_user_account: 'podman'
 podman_user_home: '/var/lib/podman'
+podman_user_shell: '/usr/sbin/nologin'  # If you really want to have a shell for the user, set it here
 podman_user_subid_range_start: 100000
 
 # Storage configuration for Podman
