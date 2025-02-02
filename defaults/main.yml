@@ -21,6 +21,10 @@ podman_containers: []
 # - section: 'engine'
 #   option: 'service_timeout'
 #   value: '0'  # This enables the Podman API service
+# - section: 'engine'
+#   option: 'env'
+#   value: '["http_proxy=myproxy:8080", other_envvars]'  # Configure a proxy for the container engine itself
+                                                         # you might need this when you to download images via a proxy
 
 # The following setting configures registries
 podman_registries: []
