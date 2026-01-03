@@ -27,6 +27,16 @@
       loop_control:
         loop_var: 'file'
 
+    - name: 'Ensure .bashrc settings'
+      ansible.builtin.blockinfile:
+        dest: "{{ podman_user_home }}/.bashrc"
+        owner: "{{ podman_user_account }}"
+        group: "{{ podman_user_account }}"
+        block: |
+          # These setting allow running systemctl when sudo-ing to this user
+          export XDG_RUNTIME_DIR="/run/user/$UID"
+          export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
+
 - name: 'Ensure packages'
   ansible.builtin.package:
     name:
